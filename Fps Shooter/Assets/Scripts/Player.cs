@@ -6,9 +6,13 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     public float speed = 2.0f;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundLayer;
     public bool grounded;
     private CharacterController controller;
     private Vector3 velocity;
+    private Vector3 move;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
 
@@ -28,27 +32,27 @@ public class Player : NetworkBehaviour
     {
         if (this.isLocalPlayer)
         {
-            grounded = controller.isGrounded;
+            grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
+
             if (grounded && velocity.y < 0)
             {
-                velocity.y = 0f;
+                velocity.y = -2f;
             }
 
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            controller.Move(move * Time.deltaTime * speed);
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
 
-            if (move != Vector3.zero)
-            {
-                gameObject.transform.forward = move;
-            }
+            move = transform.right * x + transform.forward * z;
 
-            // Changes the height position of the player..
+            controller.Move(move * speed * Time.deltaTime);
+
             if (Input.GetButtonDown("Jump") && grounded)
             {
-                velocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+                velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
             }
 
             velocity.y += gravityValue * Time.deltaTime;
+
             controller.Move(velocity * Time.deltaTime);
         }
     }
