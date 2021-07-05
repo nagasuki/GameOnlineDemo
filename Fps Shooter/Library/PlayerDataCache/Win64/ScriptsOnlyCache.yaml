@@ -80,6 +80,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 218
       Script: {instanceID: 0}
+    - Class: 1953259897
+      Script: {instanceID: 0}
   scriptHashData:
   - hash:
       serializedVersion: 2
@@ -713,7 +715,7 @@ ScriptsOnlyBuild:
     className: MonsterMovement
   - hash:
       serializedVersion: 2
-      Hash: 16d8127cb5b9dd1e973f0e90ad7c08ce
+      Hash: a1809bbc4fbfb944233f46659929b513
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player

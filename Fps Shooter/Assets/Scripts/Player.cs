@@ -10,6 +10,7 @@ public class Player : NetworkBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundLayer;
     public bool grounded;
+    public GameObject CameraMountPoint;
     private CharacterController controller;
     private Vector3 velocity;
     private Vector3 move;
@@ -20,6 +21,14 @@ public class Player : NetworkBehaviour
     void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+
+        if (isLocalPlayer)
+        {
+            Transform cameraTransform = Camera.main.gameObject.transform;  //Find main camera which is part of the scene instead of the prefab
+            cameraTransform.parent = CameraMountPoint.transform;  //Make the camera a child of the mount point
+            cameraTransform.position = CameraMountPoint.transform.position;  //Set position/rotation same as the mount point
+            cameraTransform.rotation = CameraMountPoint.transform.rotation;
+        }
     }
 
     // Update is called once per frame
